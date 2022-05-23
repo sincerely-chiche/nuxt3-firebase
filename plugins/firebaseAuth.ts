@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+// import firestore from "firebase/firestore"
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 
@@ -14,5 +15,7 @@ export default defineNuxtPlugin(nuxtApp => {
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
+
+    
 
 })

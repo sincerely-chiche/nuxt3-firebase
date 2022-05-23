@@ -1,6 +1,6 @@
 <template>
   <div class="w-screen h-screen">
-    <div v-if="route.path.toLocaleLowerCase() !== '/login'" class="min-h-full">
+    <div  class="min-h-full">
       <nav class="bg-gray-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex items-center justify-between h-16">
@@ -48,7 +48,7 @@
                 </div>
               </div>
             </div>
-            <div class="hidden md:block">
+            <div v-if="loggedIn" class="hidden md:block">
               <div class="ml-4 flex items-center md:ml-6">
                 <button
                   type="button"
@@ -132,7 +132,7 @@
 
                     <button
                       @click="logout"
-                      class="block px-4 py-2 text-sm text-gray-700"
+                      class="block w-full px-4 py-2 text-sm text-left text-gray-700"
                       role="menuitem"
                       tabindex="-1"
                       id="user-menu-item-2"
@@ -141,6 +141,9 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div v-else>
+              <button class="text-gray-50" @click="signIn">Sign in</button>
             </div>
             <div class="-mr-2 flex md:hidden">
               <!-- Mobile menu button -->
@@ -299,7 +302,6 @@
           <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1>
         </div>
       </header>
-    </div>
       <main>
         <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           <!-- Replace with your content -->
@@ -311,6 +313,7 @@
         </div>
       </main>
     <vue-footer></vue-footer>
+    </div>
   </div>
 </template>
 
@@ -321,11 +324,21 @@ import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
 const router = useRouter();
 const menu = ref(false);
+const loggedIn = ref(false);
 
 
-function logout() {
-  router.replace('/login');
+
+async function signIn() {
+   router.replace('/login');
 }
 
-console.log(route.path);
+async function logout()  {
+  await logoutUser();
+  loggedIn.value = false;
+  router.replace('/');
+}
 </script>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap');
+</style>
