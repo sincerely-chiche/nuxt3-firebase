@@ -48,6 +48,7 @@
                 </div>
               </div>
             </div>
+            
             <div v-if="loggedIn" class="hidden md:block">
               <div class="ml-4 flex items-center md:ml-6">
                 <button
@@ -143,7 +144,7 @@
               </div>
             </div>
             <div v-else>
-              <button class="text-gray-50" @click="signIn">Sign in</button>
+              <NuxtLink class="text-gray-50" to="/login">Sign in</NuxtLink>
             </div>
             <div class="-mr-2 flex md:hidden">
               <!-- Mobile menu button -->
@@ -317,24 +318,25 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import {ref} from 'vue'
+<script setup>
+import {ref, computed} from 'vue'
 import { useRoute, useRouter } from 'vue-router';
+import { useAuthStore } from './store/auth';
+
+const authStore = useAuthStore();
 
 const route = useRoute();
 const router = useRouter();
 const menu = ref(false);
-const loggedIn = ref(false);
+const loggedIn = computed(() => authStore.loggedIn);
 
 
 
-async function signIn() {
-   router.replace('/login');
-}
+
 
 async function logout()  {
   await logoutUser();
-  loggedIn.value = false;
+  authStore.changeLogging(false);
   router.replace('/');
 }
 </script>
